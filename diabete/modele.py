@@ -14,50 +14,7 @@ from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2
 from sklearn.feature_selection import VarianceThreshold
 #https://www.kaggle.com/uciml/pima-indians-diabetes-database/data
-
-# User INterface
-root = tk.Tk()
-root.geometry("500x400+350+450")
-root.title("Diabete Analytics")
-root['bg'] = 'blue'
-
-
-def hello():
-    #for i in range(0,8):
-            print(tabPregnancies[1])
-texte1 = Label(root,text='Veuillez remplir les informations')
-texte1['bg'] = 'blue'
-texte1.pack()
-
-#tableau une ligne
-rows=['Pregnancies','Glucose','BloodPressure','SkinThickness','Insulin','BMI','DiabetesPedigreeFunction','Age', 'Outcame']
-#Tab=[[IntVar() for i in range(len(rows))]]
-#saisieDonne = np.zeros((1), dtype='i')
-tabPregnancies = np.zeros((0), dtype='i')
-tabGlucose = np.zeros((1), dtype='i')
-tabBloodPressure = np.zeros((2), dtype='i')
-tabSkinThickness = np.zeros((3), dtype='i')
-
-tabInsulin = np.zeros((4), dtype='i')
-tabBMI = np.zeros((5), dtype='i')
-tabDiabetesPedigreeFunction = np.zeros((6), dtype='i')
-tabAge = np.zeros((7), dtype='i')
-tabOutcome = np.zeros((8), dtype='i')
-#tableau_de_zero = np.zeros((2, 3), dtype='i')
-
-#saisieDonne=[[IntVar() for i in range(len(rows))]]
-#saisieDonne = IntVar()
-Pregnancies = Entry(root,textvariable=tabPregnancies).pack()
-Glucose = Entry(root,textvariable=tabGlucose).pack()
-BloodPressure = Entry(root,textvariable=tabBloodPressure).pack()
-SkinThickness = Entry(root,textvariable=tabSkinThickness).pack()
-
-Insulin = Entry(root,textvariable=tabInsulin).pack()
-BMI = Entry(root,textvariable=tabBMI).pack()
-DiabetesPedigreeFunction = Entry(root,textvariable=tabDiabetesPedigreeFunction).pack()
-Age = Entry(root,textvariable=tabAge).pack()
-Outcome = Entry(root,textvariable=tabOutcome).pack()
-bouton1= Button(root,text="predire",command=hello).place(x='225',y='350')
+#Begin of Kaggle Script
 
 
 dataset = pd.read_csv("diabetes.csv")
@@ -124,5 +81,89 @@ print(pd.Series(classifier.feature_importances_,index=X.columns).sort_values(asc
 print("Random Forest en gardant les meilleurs features")
 
 
-test = [[1,189,60,23,846,30.1,0.39,57]]
-print(classifier.predict(test))
+#test = [[1,189,60,23,846,30.1,0.39,57]]
+#print(classifier.predict(test))
+
+#End of kaggle Script
+# User INterface
+root = tk.Tk()
+root.geometry("500x400+350+450")
+root.title("Diabete Analytics")
+#root['bg'] = 'blue'
+
+def predire():
+    #for i in range(0,8):
+            #print(tabPregnancies[1])
+            test = [[xPregnancies.get(),xGlucose.get(),xBloodPressure.get(),xSkinThickness.get(),xInsulin.get(),xBMI.get(),xDiabetesPedigreeFunction.get(),xAge.get()]]
+            result = classifier.predict(test)
+            print(result)
+            if(result == 1):
+                print('Vous avez le diabete')
+                affichage = Label(root,text='Vous avez le diabete')
+            else:
+                print("Go McDo")
+                affichage = Label(root,text='Go McDo',font=("Helvetica",16))
+            affichage.place(x='225',y='280')
+            #test['bg'] = 'blue'
+texte1 = Label(root,text='Veuillez remplir les informations',font=("Helvetica",12))
+#texte1['bg'] = 'blue'
+texte1.pack()
+
+
+#tableau une ligne
+rows=['Pregnancies','Glucose','BloodPressure','SkinThickness','Insulin','BMI','DiabetesPedigreeFunction','Age', 'Outcame']
+#Tab=[[IntVar() for i in range(len(rows))]]
+#saisieDonne = np.zeros((1), dtype='i')
+#tabPregnancies = np.zeros((0), dtype='i')
+
+#tableau_de_zero = np.zeros((2, 3), dtype='i')
+
+#saisieDonne=[[IntVar() for i in range(len(rows))]]
+xPregnancies = DoubleVar()
+lPregnancies = Label(root,text='Pregnancies :')
+lPregnancies.place(x='25',y='20')
+lGlucose = Label(root, text='Glucose :')
+lBloodPressure = Label(root,text='BloodPressure :')
+lSkinThickness = Label(root,text='SkinThicknes :')
+
+lInsulin = Label(root,text='Insulin :')
+lBMI = Label(root,text='BMI :')
+lDiabetesPedigreeFunction = Label(root,text='DiabetesPedigreeFunction :')
+lAge = Label(root,text='Age :')
+
+#Packing Label
+lGlucose.place(x='25', y ='40')
+lBloodPressure.place(x='25',y='60')
+lSkinThickness.place(x='25',y='80')
+lInsulin.place(x='25',y='100')
+lBMI.place(x='25',y='120')
+lDiabetesPedigreeFunction.place(x='25',y='140')
+lAge.place(x='25',y='160')
+
+#Variables des champs de saisies
+xBloodPressure = DoubleVar()
+xSkinThickness = DoubleVar()
+
+xInsulin = DoubleVar()
+xBMI = DoubleVar()
+xDiabetesPedigreeFunction = DoubleVar()
+xAge = DoubleVar()
+
+Pregnancies = Entry(root,textvariable=xPregnancies)
+Pregnancies.pack()
+xGlucose = DoubleVar()
+Glucose = Entry(root,textvariable=xGlucose).pack()
+xBloodPressure = DoubleVar()
+BloodPressure = Entry(root,textvariable=xBloodPressure).pack()
+SkinThickness = Entry(root,textvariable=xSkinThickness).pack()
+
+Insulin = Entry(root,textvariable=xInsulin).pack()
+BMI = Entry(root,textvariable=xBMI).pack()
+DiabetesPedigreeFunction = Entry(root,textvariable=xDiabetesPedigreeFunction).pack()
+Age = Entry(root,textvariable=xAge).pack()
+#
+
+
+#Bouton du formulaire
+bouton1= Button(root,text="predire",command=predire).place(x='225',y='350')
+
